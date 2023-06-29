@@ -1,4 +1,4 @@
-from rdkit.Chem import Descriptors, MolFromSmiles
+from rdkit.Chem import Descriptors, MolFromSmiles, QED
 from rdkit.ML.Descriptors import MoleculeDescriptors
 from padelpy import from_smiles
 
@@ -27,6 +27,7 @@ _ = from_smiles(
     output_csv='descriptors.csv'
 )
 
+'''
 calc = MoleculeDescriptors.MolecularDescriptorCalculator(
     [x[0] for x in Descriptors._descList]
 )
@@ -42,3 +43,5 @@ for desc, value in zip(desc_list, rdkit_desc):
     print(desc, value)
 
 print(len(desc_list))
+'''
+
