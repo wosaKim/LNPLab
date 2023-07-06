@@ -3,6 +3,7 @@ import sys
 from rdkit import Chem
 from rdkit.Chem import Descriptors
 from rdkit.Chem import RDConfig
+
 sys.path.append(os.path.join(RDConfig.RDContribDir, 'SA_Score'))
 import sascorer
 
@@ -24,8 +25,14 @@ class Druglikeness:
     def sascore(self):
         return sascorer.calculateScore(self.mol)
 
+    def big_ring_count(self, at_min=7):
+        return [ring for ring in self.mol.GetRingInfo().AtomRings() if len(ring) >= at_min]
+
+    def logp(self):
+        return Descriptors.MolLogP(self.mol)
+
     def plogp(self):
-        return None
+        return self.logp() - self.sascore() - len(self.big_ring_count())
 
     def qed(self):
         return Chem.QED.qed(self.mol)
@@ -40,7 +47,7 @@ class Druglikeness:
 
 
 if __name__ == "__main__":
-    dln = Druglikeness('CC1=C(C=C(C=C1)NC(=O)C2=CC=C(C=C2)CN3CCN(CC3)C)NC4=NC=CC(=N4)C5=CN=CC=C5')
-    print(dln.qed(), dln.lo5(), dln.sascore())
+    dln = Druglikeness('COCc1c(C=CCCCCC#N)[nH]c(C)c1C(=O)NC(C)(C)C')
+    print(dln.qed(), dln.lo5(), dln.sascore(), len(dln.big_ring_count()), dln.plogp())
 
 

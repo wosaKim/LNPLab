@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='LNPLab',
-    version='0.0.2',
+    version='0.0.3',
     description='Utils for LNP Solution and Clients',
     author='william',
     author_email='william@lnpsolution.com',
