@@ -37,13 +37,17 @@ class Druglikeness:
     def qed(self):
         return Chem.QED.qed(self.mol)
 
-    def lo5(self):
+    def lo5(self, observation=False):
         mw = Descriptors.ExactMolWt(self.mol_h)
         hba = Descriptors.NOCount(self.mol_h)
         hbd = Descriptors.NHOHCount(self.mol_h)
         logp = Descriptors.MolLogP(self.mol_h)
         conditions = [mw <= 500, hba <= 10, hbd <= 5, logp <= 5]
-        return conditions.count(True)
+
+        if observation:
+            return conditions.count(True)
+
+        return conditions.count(False)
 
 
 if __name__ == "__main__":
